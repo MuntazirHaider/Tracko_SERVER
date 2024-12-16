@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -17,42 +14,38 @@ generator client {
 model User {
   userId            Int     @id @default(autoincrement())
   username          String  @unique
+  password          String
+  role              String
   profilePictureUrl String?
-  teamId            Int?
+  organizationId    Int?
 
   authoredTasks   Task[]           @relation("TaskAuthor")
   assignedTasks   Task[]           @relation("TaskAssignee")
   taskAssignments TaskAssignment[]
   attachments     Attachment[]
   comments        Comment[]
-  team            Team?            @relation(fields: [teamId], references: [id])
-}
-
-model Team {
-  id                   Int           @id @default(autoincrement())
-  teamName             String
-  productOwnerUserId   Int?
-  projectManagerUserId Int?
-  projectTeams         ProjectTeam[]
-  user                 User[]
+  organization    Organization?    @relation(fields: [organizationId], references: [id])
 }
 
 model Project {
-  id           Int           @id @default(autoincrement())
-  name         String
-  description  String?
-  startDate    DateTime?
-  endDate      DateTime?
-  tasks        Task[]
-  projectTeams ProjectTeam[]
+  id             Int          @id @default(autoincrement())
+  name           String
+  description    String?
+  startDate      DateTime?
+  endDate        DateTime?
+  tasks          Task[]
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
-model ProjectTeam {
-  id        Int     @id @default(autoincrement())
-  teamId    Int
-  projectId Int
-  team      Team    @relation(fields: [teamId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
+model Organization {
+  id          Int       @id @default(autoincrement())
+  name        String
+  established String
+  industry    String
+  ownerId     Int
+  projects    Project[]
+  user        User[]
 }
 
 model Task {

@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from './generated/prisma-client-js';
 import fs from "fs";
 import path from "path";
+
 const prisma = new PrismaClient();
 
 async function deleteAllData(orderedFileNames: string[]) {
@@ -24,9 +25,8 @@ async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
   const orderedFileNames = [
-    "team.json",
+    "organization.json",
     "project.json",
-    "projectTeam.json",
     "user.json",
     "task.json",
     "attachment.json",
@@ -34,6 +34,7 @@ async function main() {
     "taskAssignment.json",
   ];
 
+  // Uncomment if you need to clear data first
   // await deleteAllData(orderedFileNames);
 
   for (const fileName of orderedFileNames) {

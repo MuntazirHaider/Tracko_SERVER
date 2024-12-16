@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const projectController_1 = require("../controllers/projectController");
+const auth_1 = require("../middleware/auth");
+const roleBasedGuard_1 = require("../middleware/roleBasedGuard");
 const router = (0, express_1.Router)();
-router.get("/", projectController_1.getProjects);
-router.post("/", projectController_1.createProjects);
+router.get("/", auth_1.verifyToken, projectController_1.getProjects);
+router.post("/", auth_1.verifyToken, (0, roleBasedGuard_1.roleBasedGuard)(['Admin', 'Project Manager']), projectController_1.createProjects);
 exports.default = router;

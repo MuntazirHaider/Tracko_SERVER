@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "name": "Delta",
+        "established": "2023-01-01",
+        "industry": [
+            "IT"
+        ],
+        "ownerId": 1
+    }
+]
