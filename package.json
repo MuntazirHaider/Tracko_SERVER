@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
      "build": "rimraf dist && npx tsc",
-     "start": "node src/index.js",
+     "start": "node index",
     "dev": "npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node src/index\"",
     "seed": "ts-node prisma/seed.ts"
   },
